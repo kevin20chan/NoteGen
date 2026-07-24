@@ -1,10 +1,14 @@
 # mysql常用命令
+
 ### 客户端登录
+
 ```sql
 mysql -h10.124.207.10 -uapp_coo_user -P6666 -A -p
-r9Kv#OaWGHG&
+password
 ```
+
 ## mysql常用命令
+
 ```sql
 # 新增分区
 ALTER TABLE attendance_day ADD PARTITION(
@@ -37,21 +41,26 @@ ALTER TABLE tos_vehicle.tb_car_track_vms_info DROP PARTITION p202209,p202210;
 ALTER TABLE `tb_wooden_frame` ADD INDEX `idx_waybill_number`(`waybill_number`) USING BTREE;
 ```
 
-
 ### mysql导出
+
 ```sql
 mysqldump --add-drop-table -h10.120.25.200 -P4800 -uapp_coo_user -p --default-character-set=utf8 tos_base tb_department > tb_department_1221.sql
 ```
+
 ```sql
 mysql -h10.120.25.1 -P4800 -uapp_coo_user -p tos_depot -e "select waybill_number from tb_depot_goods where update_time > UNIX_TIMESTAMP('2020-05-29 15:50:00') and update_time < UNIX_TIMESTAMP('2020-05-29 18:30:00') group by waybill_number " > /home/dev/depotWaybillNumber0529.txt
 
 mysql -h10.124.46.68 -p -P9030 -A -uapp_coo_user_admin -Dprd_coofd -e " SELECT tg.waybill_number FROM prd_coofd.tb_goods_new tg LEFT JOIN prd_coofd.tb_goods_new_active tg1 ON tg1.waybill_number = tg.waybill_number AND tg1.dt >= '2023-08-01' AND tg1.dt < '2023-09-01' WHERE tg.dt > '2023-08-01' AND   tg.dt < '2023-09-01' AND   (ifnull(tg.sign_time,0) > 0 OR tg.is_abort = 1) AND   tg1.waybill_number IS NOT NULL ; " > goods_tode202309071154.txt
 ```
+
 ### 查看是否大小写敏感
+
 ```sql
 show VARIABLES like '%case%';
 ```
+
 ### 字符集修改
+
 ```sql
 # 先查询当前数据集
 select TABLE_COLLATION, count(1) num from information_schema.`TABLES` where TABLE_SCHEMA = 'tos_mix' group by TABLE_COLLATION;
@@ -59,15 +68,17 @@ select TABLE_COLLATION, count(1) num from information_schema.`TABLES` where TABL
 select CONCAT('ALTER TABLE ', TABLE_NAME, ' CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;') from information_schema.tables where TABLE_SCHEMA='tos_mix' and TABLE_COLLATION='utf8_general_ci';
 ```
 
-
 ### 拼接sql
+
 ```sql
 INSERT INTO _gravity.gravity_positions (name, stage, `position`, created_at, updated_at) 
 SELECT 'tms2kudu_public_order' as name, 'stream', `position`, created_at, updated_at
 FROM _gravity.gravity_positions
 WHERE name = 'tms2kudu_public';
 ```
+
 ### 查询分区表
+
 ```sql
 SELECT TABLE_SCHEMA
 ,TABLE_NAME, PARTITION_NAME,PARTITION_METHOD,PARTITION_EXPRESSION,PARTITION_DESCRIPTION,
@@ -88,6 +99,7 @@ WHERE
     TABLE_SCHEMA = 'tos_vehicle' 
     AND TABLE_NAME = 'tb_car_goods_temporary';
 ```
+
 查询库表记录
 
 ```sql
@@ -127,3 +139,5 @@ FROM information_schema.tables
 ORDER BY data_size DESC
 
 ```
+
+&nbsp;
