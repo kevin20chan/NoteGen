@@ -5,7 +5,6 @@
 ```sql
 mysql -h10.124.207.10 -uapp_coo_user -P6666 -A -p
 password
-```
 
 ## mysql常用命令
 
