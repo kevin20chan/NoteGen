@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-07-30T01:32:11.083Z",
-  "updatedAtMs": 1785375131083,
+  "updatedAt": "2026-07-30T01:36:57.733Z",
+  "updatedAtMs": 1785375417733,
   "deviceId": "device_1784883194896_jc7ywc1mc",
   "provider": "github",
   "domains": [
@@ -14,12 +14,14 @@
   "files": {
     "records": [
       ".data/tags.json",
-      ".data/marks.json"
+      ".data/marks.json",
+      ".data/canvases/index.json",
+      ".data/canvases/items"
     ],
     "settings": [
       ".data/settings.json"
     ],
     "meta": ".data/meta.json"
   },
-  "appVersion": "0.32.1"
+  "appVersion": "0.33.0"
 }
