@@ -123,7 +123,8 @@ ORDER BY create_time DESC
 LIMIT 100;
 
 # 查询异常日志
-select * from information_schema.load_tracking_logs where job_id=366849123
+select * from information_schema.load_tracking_logs where job_id=366849123;
+select * from information_schema.load_tracking_logs where LABEL = 'dwd_coo_damaged_control_improve_config_result_m_1786500640047'
 ```
 
 ### 原子替换
