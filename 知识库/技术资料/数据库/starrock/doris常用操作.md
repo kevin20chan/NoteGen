@@ -1,5 +1,7 @@
 # doris常用操作
+
 ### 查看分区数据量
+
 ```sql
 select count(*) from quality_monitoring_report_batch_fee_detail PARTITION(p202102);
 
@@ -13,7 +15,9 @@ and db_name like '%uat_coofd%'
 and table_name in ('uat_coofd.quality_monitoring_customer_batch_detail','uat_coofd.quality_monitoring_customer_batch_summary_dat','uat_coofd.tb_goods_impala_day5','uat_coofd.tb_goods_impala_day4','uat_coofd.tb_depot_goods_handover_hour_distinct','uat_coofd.operation_quality_control_overtime_ticket_temp1','uat_coofd.pickup_delivery_batch_overtime_detail','uat_coofd.pickup_delivery_waybill_overtime_detail','uat_coofd.operation_quality_report_customer_basic_dat','uat_coofd.operation_quality_report_customer_basic_month','uat_coofd.tb_goods_impala_kuasheng_new','uat_coofd.tb_goods_detain_detail','uat_coofd.tb_goods_detain_detail_oper','uat_coofd.quality_monitoring_report_line_day','uat_coofd.quality_monitoring_report_line_week','uat_coofd.quality_monitoring_report_line_month','uat_coofd.tb_goods_impala_day2','uat_coofd.tb_kuesheng_report_customer_code_detail_day_month','uat_coofd.quality_monitoring_weight_segment_day','uat_coofd.quality_monitoring_weight_segment_week','uat_coofd.quality_monitoring_weight_segment_month','uat_coofd.quality_monitoring_customer_batch_summary_month','uat_coofd.quality_monitoring_report_market_day','uat_coofd.quality_monitoring_report_market_month','uat_coofd.tb_sameterm_customer_code_summary','uat_coofd.quality_monitoring_report_market_day_10min','uat_coofd.operation_quality_control_pressure_waybill_detail','uat_coofd.fraud_checkin_detail_app','uat_coofd.operation_quality_control_overtime_ticket_temp3','uat_coofd.administrative_division_prescription','uat_coofd.quality_monitoring_report_batch_fee_detail','uat_coofd.quality_monitoring_report_batch_fee_level','uat_coofd.quality_monitoring_report_batch_fee_waybill_detail','uat_coofd.operation_quality_peak_assist_car_detail','uat_coofd.schedule_person_detail_business_department','uat_coofd.tb_operation_quality_lading_overtime_det','uat_coofd.tb_goods_impala_day4_10min');
 
 ```
+
 ### 临时分区查看与删除
+
 ```sql
 -- 查看分区
 show PARTITIONS from ods_coo.tb_car_goods_temporary;
@@ -32,7 +36,9 @@ ALTER TABLE uat_coofd.tb_waybill_time_effect_monitor SET ("dynamic_partition.ena
 ALTER TABLE uat_coofd.tb_waybill_time_effect_monitor ADD PARTITION p202007 VALUES [("1970-01-01"), ("2020-08-01"));
 ALTER TABLE uat_coofd.tb_waybill_time_effect_monitor SET ("dynamic_partition.enable" = "true");
 ```
+
 ### routine load 操作
+
 ```sql
 -- 查看实时导入任务状态
 SHOW ROUTINE LOAD FOR test1;
@@ -98,25 +104,42 @@ FROM kafka
     "kafka_offsets" = "OFFSET_END,OFFSET_END,OFFSET_END"
 );
 ```
+
 ### broker load操作
+
 ```sql
 # 查看导入信息
 SHOW LOAD FROM uat_coofd WHERE LABEL Like "table" ORDER BY LoadStartTime DESC;
 # 取消load
 CANCEL LOAD [FROM db_name] WHERE LABEL = "label_name";
+
+# 导入异常任务查询
+SELECT job_id, label, state, scan_rows, filtered_rows, unselected_rows,
+       sink_rows, error_msg, tracking_sql, properties
+FROM information_schema.loads
+WHERE 1=1 
+and label like '%dwd_coo_damaged_control_improve_config_result_m%'
+ORDER BY create_time DESC
+LIMIT 100;
+
+# 查询异常日志
+select * from information_schema.load_tracking_logs where job_id=366849123
 ```
+
 ### 原子替换
+
 ```sql
 ALTER TABLE tb_goods_impala_day1_temp SWAP WITH tb_goods_impala_day1;
 ```
+
 刷新元数据
 
 ```sql
 refresh EXTERNAL table  coo_hive_catalog.dwd_coo.dwd_coo_damaged_control_improve_config_waybill_m;
 ```
 
-
 ### 定位慢查询sql
+
 ```sql
 SELECT query_id,
        digest,
@@ -232,3 +255,5 @@ AND   query_time > 3000
 GROUP BY `digest`
 ORDER BY COUNT(1) DESC LIMIT 50
 ```
+
+&nbsp;
