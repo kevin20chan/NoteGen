@@ -7,7 +7,7 @@ select count(*) from quality_monitoring_report_batch_fee_detail PARTITION(p20210
 
 select DISTINCT table_name from  `_statistics_`.table_statistic_v1
 where 
-(column_name like  '%depart_code%' 
+(column_name like  '%depart_code%'
 or column_name like '%department_code%'
 or column_name like '%level%%'
 or column_name like '%tag%')
