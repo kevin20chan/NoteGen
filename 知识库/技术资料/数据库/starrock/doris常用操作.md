@@ -125,7 +125,7 @@ LIMIT 100;
 # 查询异常日志
 select tracking_log from information_schema.load_tracking_logs where job_id=467520745;
 select * from information_schema.load_tracking_logs where job_id=366849123;
-select * from information_schema.load_tracking_logs where LABEL = 'dwd_coo_damaged_control_improve_config_result_m_1786500640047'
+select * from information_schema.load_tracking_logs where LABEL = 'dwd_coo_damaged_control_improve_config_result_m_1786500640047';
 ```
 
 ### 原子替换
@@ -257,5 +257,3 @@ AND   query_time > 3000
 GROUP BY `digest`
 ORDER BY COUNT(1) DESC LIMIT 50
 ```
-
-&nbsp;
